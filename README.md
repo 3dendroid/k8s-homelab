@@ -9,11 +9,11 @@ Based on the course *Junior-01* by Artur Kryukov (CC BY-NC-SA 4.0). Manifests in
 | Host | IP | Role |
 |---|---|---|
 | — | 192.168.218.140 | VIP (kube-apiserver via haproxy :7443) |
-| cp1–cp3.local.lan | .141–.143 | control plane (keepalived + haproxy) |
+| cp1–cp3.local.lan | .141–.143 | control plane (keepalived + haproxy, stacked etcd) |
 | w1–w2.local.lan | .144–.145 | workers |
 | infra.local.lan | .13 | DNS (dnsmasq) + NFS |
 
-Rocky Linux 10, containerd, Kubernetes v1.37, kube-proxy in nftables mode.
+Rocky Linux 10, containerd, Kubernetes v1.37, Calico CNI, kube-proxy in nftables mode, NodeLocalDNS.
 
 ## Progress
 
@@ -21,10 +21,16 @@ Rocky Linux 10, containerd, Kubernetes v1.37, kube-proxy in nftables mode.
 - [x] Infra VM: dnsmasq (local.lan zone) + NFS share
 - [x] Node preparation: swap, SELinux, kernel modules, sysctl, containerd
 - [x] HA control-plane endpoint: keepalived + haproxy, failover tested
-- [ ] `kubeadm init` + Calico
-- [ ] Join control-plane and worker nodes
+- [x] `kubeadm init` + Calico + NodeLocalDNS
+- [x] Join control-plane and worker nodes — 5 nodes `Ready`, in-cluster DNS verified
+- [ ] Workloads: namespaces, pods, deployments, services
+
+## Notes
+
+- [15-10-26 — Cluster bootstrap](notes/15-10-26-cluster-bootstrap.md)
 
 ## Lessons learned
 
 - A fix is only verified after reproducing the failure (e.g. reboot test caught a dnsmasq boot-order race).
 - Untested HA is just an assumption: VIP failover and preemption were tested live.
+- The CA cert hash in `kubeadm join` really protects you: a wrong hash makes the node refuse to join.
