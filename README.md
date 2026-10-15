@@ -2,7 +2,7 @@
 
 Highly available Kubernetes cluster built from scratch with **kubeadm** on VirtualBox VMs — a hands-on learning project on my way from QA to DevOps.
 
-Based on the course *Junior-01* by Artur Kryukov (CC BY-NC-SA 4.0). Notes and configs in this repo are my own.
+Based on the course *Junior-01* by Artur Kryukov (CC BY-NC-SA 4.0). Manifests in `manifests/` are from the course; notes are my own.
 
 ## Topology
 
