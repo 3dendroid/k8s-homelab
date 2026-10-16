@@ -23,14 +23,16 @@ Rocky Linux 10, containerd, Kubernetes v1.37, Calico CNI, kube-proxy in nftables
 - [x] HA control-plane endpoint: keepalived + haproxy, failover tested
 - [x] `kubeadm init` + Calico + NodeLocalDNS
 - [x] Join control-plane and worker nodes — 5 nodes `Ready`, in-cluster DNS verified
-- [ ] Workloads: namespaces, pods, deployments, services
+- [x] Workloads: namespaces, pods, deployments, services, statefulsets, daemonsets
 
 ## Notes
 
 - [15-10-26 — Cluster bootstrap](notes/15-10-26-cluster-bootstrap.md)
+- [16-10-26 — Workloads](notes/16-10-26-workloads.md)
 
 ## Lessons learned
 
 - A fix is only verified after reproducing the failure (e.g. reboot test caught a dnsmasq boot-order race).
 - Untested HA is just an assumption: VIP failover and preemption were tested live.
 - The CA cert hash in `kubeadm join` really protects you: a wrong hash makes the node refuse to join.
+- Deleting a Deployment leaves its Service behind: clean up with the same manifests you applied.
